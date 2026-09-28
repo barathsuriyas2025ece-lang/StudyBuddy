@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyBuddy Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #2563eb;
+            color: white;
+            padding: 25px 40px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 6px 0 0;
+            opacity: .9;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .status {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.07);
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .danger {
+            background: #dc2626;
+        }
+
+        .danger:hover {
+            background: #b91c1c;
+        }
+
+        .success {
+            background: #16a34a;
+        }
+
+        .success:hover {
+            background: #15803d;
+        }
+
+        .warning {
+            background: #d97706;
+        }
+
+        .warning:hover {
+            background: #b45309;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 25px;
+        }
+
+        #message {
+            display: none;
+            margin-bottom: 20px;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media(max-width: 800px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            header {
+                padding: 20px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>StudyBuddy</h1>
+    <p>Student and Study Group Management System</p>
+</header>
+
+<div class="container">
+
+    <div id="message"></div>
+
+    <div class="status">
+        <strong>System Status:</strong>
+        <span id="status">Loading...</span>
+    </div>
+
+
+    <div class="grid">
+
+
+        <!-- 1. CREATE STUDENT -->
+
+        <div class="card">
+
+            <h2>1. Create Student</h2>
+
+            <form id="studentForm">
+
+                <label>Student Name</label>
+
+                <input
+                        type="text"
+                        id="studentName"
+                        placeholder="Enter student name"
+                        required
+                >
+
+                <button type="submit">
+                    Create Student
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- 2. CREATE SUBJECT -->
+
+        <div class="card">
+
+            <h2>2. Create Subject</h2>
+
+            <form id="subjectForm">
+
+                <label>Subject Name</label>
+
+                <input
+                        type="text"
+                        id="subjectName"
+                        placeholder="Enter subject name"
+                        required
+                >
+
+                <button type="submit">
+                    Create Subject
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- 3. CREATE GROUP -->
+
+        <div class="card">
+
+            <h2>3. Create Study Group</h2>
+
+            <form id="groupForm">
+
+                <label>Group Name</label>
+
+                <input
+                        type="text"
+                        id="groupName"
+                        placeholder="Example: Java Beginners"
+                        required
+                >
+
+                <label>Maximum Members</label>
+
+                <input
+                        type="number"
+                        id="maxMembers"
+                        min="1"
+                        value="5"
+                        required
+                >
+
+                <label>Subject</label>
+
+                <select id="groupSubject" required>
+                    <option value="">Select Subject</option>
+                </select>
+
+                <label>Creator</label>
+
+                <select id="groupCreator" required>
+                    <option value="">Select Student</option>
+                </select>
+
+                <button type="submit">
+                    Create Study Group
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- 4. JOIN GROUP -->
+
+        <div class="card">
+
+            <h2>4. Join Group</h2>
+
+            <form id="joinForm">
+
+                <label>Study Group</label>
+
+                <select id="joinGroup" required>
+                    <option value="">Select Group</option>
+                </select>
+
+                <label>Student</label>
+
+                <select id="joinStudent" required>
+                    <option value="">Select Student</option>
+                </select>
+
+                <button class="success" type="submit">
+                    Join Group
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- 5. VIEW MEMBERS -->
+
+        <div class="card full">
+
+            <h2>5. View Members</h2>
+
+            <label>Study Group</label>
+
+            <select id="viewGroup">
+                <option value="">Select Group</option>
+            </select>
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>Membership ID</th>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                </tr>
+
+                </thead>
+
+                <tbody id="membersTable">
+
+                <tr>
+                    <td colspan="3" class="empty">
+                        Select a group
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- 6. LEAVE GROUP -->
+
+        <div class="card">
+
+            <h2>6. Leave Group</h2>
+
+            <form id="leaveForm">
+
+                <label>Study Group</label>
+
+                <select id="leaveGroup" required>
+                    <option value="">Select Group</option>
+                </select>
+
+                <label>Member</label>
+
+                <select id="leaveStudent" required>
+                    <option value="">Select Group First</option>
+                </select>
+
+                <button class="warning" type="submit">
+                    Leave Group
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- 7. REMOVE MEMBER -->
+
+        <div class="card">
+
+            <h2>7. Remove Member</h2>
+
+            <form id="removeForm">
+
+                <label>Study Group</label>
+
+                <select id="removeGroup" required>
+                    <option value="">Select Group</option>
+                </select>
+
+                <label>Group Creator</label>
+
+                <select id="removeCreator" required>
+                    <option value="">Select Creator</option>
+                </select>
+
+                <label>Member to Remove</label>
+
+                <select id="removeStudent" required>
+                    <option value="">Select Member</option>
+                </select>
+
+                <button class="danger" type="submit">
+                    Remove Member
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- 8. DELETE GROUP -->
+
+        <div class="card full">
+
+            <h2>8. Delete Study Group</h2>
+
+            <form id="deleteForm">
+
+                <label>Study Group</label>
+
+                <select id="deleteGroup" required>
+                    <option value="">Select Group</option>
+                </select>
+
+                <button class="danger" type="submit">
+                    Delete Study Group
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- GROUP LIST -->
+
+        <div class="card full">
+
+            <h2>Study Groups</h2>
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Creator</th>
+                    <th>Maximum Members</th>
+                </tr>
+
+                </thead>
+
+                <tbody id="groupsTable">
+
+                <tr>
+                    <td colspan="5" class="empty">
+                        Loading...
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+     ==========================================
+     GLOBAL DATA
+     ==========================================
+    */
+
+    let students = [];
+    let subjects = [];
+    let groups = [];
+
+
+    /*
+     ==========================================
+     MESSAGE
+     ==========================================
+    */
+
+    function showMessage(message, success = true) {
+
+        const box = document.getElementById("message");
+
+        box.textContent = message;
+
+        box.style.display = "block";
+
+        box.className =
+            success
+                ? "success-message"
+                : "error-message";
+
+        setTimeout(() => {
+            box.style.display = "none";
+        }, 4000);
+    }
+
+
+    /*
+     ==========================================
+     API FUNCTION
+     ==========================================
+    */
+
+    async function request(url, options = {}) {
+
+        const response = await fetch(url, {
+            ...options,
+
+            headers: {
+                "Content-Type": "application/json",
+                ...(options.headers || {})
+            }
+        });
+
+        const text = await response.text();
+
+        let data;
+
+        try {
+            data = text ? JSON.parse(text) : null;
+        } catch {
+            data = text;
+        }
+
+        if (!response.ok) {
+
+            let errorMessage = "Request failed";
+
+            if (data && typeof data === "object") {
+
+                errorMessage =
+                    data.error ||
+                    data.message ||
+                    "Request failed";
+
+            } else if (data) {
+
+                errorMessage = data;
+
+            }
+
+            throw new Error(errorMessage);
+        }
+
+        return data;
+    }
+
+
+    /*
+     ==========================================
+     LOAD STUDENTS
+     ==========================================
+    */
+
+    async function loadStudents() {
+
+        students =
+            await request("/api/students");
+
+        fillStudentDropdowns();
+    }
+
+
+    /*
+     ==========================================
+     LOAD SUBJECTS
+     ==========================================
+    */
+
+    async function loadSubjects() {
+
+        subjects =
+            await request("/api/subjects");
+
+        fillSubjectDropdown();
+    }
+
+
+    /*
+     ==========================================
+     LOAD GROUPS
+     ==========================================
+    */
+
+    async function loadGroups() {
+
+        groups =
+            await request("/api/study-groups");
+
+        fillGroupDropdowns();
+
+        displayGroups();
+    }
+
+
+    /*
+     ==========================================
+     LOAD EVERYTHING
+     ==========================================
+    */
+
+    async function loadEverything() {
+
+        try {
+
+            document.getElementById("status")
+                .textContent = "Connecting...";
+
+            await Promise.all([
+                loadStudents(),
+                loadSubjects(),
+                loadGroups()
+            ]);
+
+            document.getElementById("status")
+                .textContent = "Connected";
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("status")
+                .textContent = "Connection Error";
+
+            showMessage(
+                error.message,
+                false
+            );
+        }
+    }
+
+
+    /*
+     ==========================================
+     STUDENT DROPDOWNS
+     ==========================================
+    */
+
+    function fillStudentDropdowns() {
+
+        const creator =
+            document.getElementById("groupCreator");
+
+        const join =
+            document.getElementById("joinStudent");
+
+
+        creator.innerHTML =
+            '<option value="">Select Student</option>';
+
+        join.innerHTML =
+            '<option value="">Select Student</option>';
+
+
+        students.forEach(student => {
+
+            const name =
+                student.name ||
+                student.fullName ||
+                student.username ||
+                `Student ${student.id}`;
+
+
+            const option1 =
+                document.createElement("option");
+
+            option1.value = student.id;
+
+            option1.textContent =
+                `${name} (ID: ${student.id})`;
+
+            creator.appendChild(option1);
+
+
+            const option2 =
+                document.createElement("option");
+
+            option2.value = student.id;
+
+            option2.textContent =
+                `${name} (ID: ${student.id})`;
+
+            join.appendChild(option2);
+
+        });
+    }
+
+
+    /*
+     ==========================================
+     SUBJECT DROPDOWN
+     ==========================================
+    */
+
+    function fillSubjectDropdown() {
+
+        const select =
+            document.getElementById("groupSubject");
+
+        select.innerHTML =
+            '<option value="">Select Subject</option>';
+
+
+        subjects.forEach(subject => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = subject.id;
+
+            option.textContent =
+                `${subject.name} (ID: ${subject.id})`;
+
+            select.appendChild(option);
+
+        });
+    }
+
+
+    /*
+     ==========================================
+     GROUP DROPDOWNS
+     ==========================================
+    */
+
+    function fillGroupDropdowns() {
+
+        const ids = [
+            "joinGroup",
+            "viewGroup",
+            "leaveGroup",
+            "removeGroup",
+            "deleteGroup"
+        ];
+
+
+        ids.forEach(id => {
+
+            const select =
+                document.getElementById(id);
+
+            select.innerHTML =
+                '<option value="">Select Group</option>';
+
+
+            groups.forEach(group => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = group.id;
+
+                option.textContent =
+                    `${group.name} (ID: ${group.id})`;
+
+                select.appendChild(option);
+
+            });
+
+        });
+    }
+
+
+    /*
+     ==========================================
+     DISPLAY GROUPS
+     ==========================================
+    */
+
+    function displayGroups() {
+
+        const table =
+            document.getElementById("groupsTable");
+
+
+        if (!groups.length) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="5" class="empty">
+                        No study groups found
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        table.innerHTML = "";
+
+
+        groups.forEach(group => {
+
+            const subject =
+                group.subject
+                    ? group.subject.name
+                    : "-";
+
+
+            const creator =
+                group.creator
+                    ? (
+                        group.creator.name ||
+                        group.creator.fullName ||
+                        group.creator.username ||
+                        `Student ${group.creator.id}`
+                    )
+                    : "-";
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>${group.id}</td>
+
+                <td>${group.name}</td>
+
+                <td>${subject}</td>
+
+                <td>${creator}</td>
+
+                <td>${group.maxMembers}</td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        });
+    }
+
+
+    /*
+     ==========================================
+     1. CREATE STUDENT
+     ==========================================
+    */
+
+    document
+        .getElementById("studentForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("studentName")
+                    .value
+                    .trim();
+
+
+            try {
+
+                const student =
+                    await request(
+                        "/api/students",
+                        {
+                            method: "POST",
+
+                            body: JSON.stringify({
+                                name: name
+                            })
+                        }
+                    );
+
+
+                showMessage(
+                    `Student created successfully. ID: ${student.id}`
+                );
+
+
+                this.reset();
+
+                await loadStudents();
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+            }
+
+        });
+
+
+    /*
+     ==========================================
+     2. CREATE SUBJECT
+     ==========================================
+    */
+
+    document
+        .getElementById("subjectForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("subjectName")
+                    .value
+                    .trim();
+
+
+            try {
+
+                const subject =
+                    await request(
+                        "/api/subjects",
+                        {
+                            method: "POST",
+
+                            body: JSON.stringify({
+                                name: name
+                            })
+                        }
+                    );
+
+
+                showMessage(
+                    `Subject created successfully. ID: ${subject.id}`
+                );
+
+
+                this.reset();
+
+                await loadSubjects();
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+            }
+
+        });
+
+
+    /*
+     ==========================================
+     3. CREATE STUDY GROUP
+     ==========================================
+    */
+
+    document
+        .getElementById("groupForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("groupName")
+                    .value
+                    .trim();
+
+
+            const maxMembers =
+                Number(
+                    document
+                        .getElementById("maxMembers")
+                        .value
+                );
+
+
+            const subjectId =
+                Number(
+                    document
+                        .getElementById("groupSubject")
+                        .value
+                );
+
+
+            const creatorId =
+                Number(
+                    document
+                        .getElementById("groupCreator")
+                        .value
+                );
+
+
+            try {
+
+                const group =
+                    await request(
+                        "/api/study-groups/create",
+                        {
+                            method: "POST",
+
+                            body: JSON.stringify({
+
+                                name: name,
+
+                                maxMembers: maxMembers,
+
+                                subjectId: subjectId,
+
+                                creatorId: creatorId
+
+                            })
+                        }
+                    );
+
+
+                showMessage(
+                    `Study group created successfully. ID: ${group.id}`
+                );
+
+
+                this.reset();
+
+                await loadGroups();
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+            }
+
+        });
+
+
+    /*
+     ==========================================
+     4. JOIN GROUP
+     ==========================================
+    */
+
+    document
+        .getElementById("joinForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const groupId =
+                Number(
+                    document
+                        .getElementById("joinGroup")
+                        .value
+                );
+
+
+            const studentId =
+                Number(
+                    document
+                        .getElementById("joinStudent")
+                        .value
+                );
+
+
+            try {
+
+                await request(
+                    "/api/study-groups/join",
+                    {
+                        method: "POST",
+
+                        body: JSON.stringify({
+
+                            groupId: groupId,
+
+                            studentId: studentId
+
+                        })
+                    }
+                );
+
+
+                showMessage(
+                    "Student joined the group successfully"
+                );
+
+
+                this.reset();
+
+                await loadGroups();
+
+
+                /*
+                 * Refresh members if this group
+                 * is currently being viewed.
+                 */
+
+                const selected =
+                    document.getElementById("viewGroup").value;
+
+
+                if (selected == groupId) {
+                    loadMembers(groupId);
+                }
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+            }
+
+        });
+
+
+    /*
+     ==========================================
+     GET MEMBERS
+     ==========================================
+    */
+
+    async function getMembers(groupId) {
+
+        return await request(
+            `/api/study-groups/${groupId}/members`
+        );
+    }
+
+
+    /*
+     ==========================================
+     5. VIEW MEMBERS
+     ==========================================
+    */
+
+    document
+        .getElementById("viewGroup")
+        .addEventListener("change", function() {
+
+            if (this.value) {
+
+                loadMembers(this.value);
+
+            } else {
+
+                document.getElementById("membersTable")
+                    .innerHTML = `
+                        <tr>
+                            <td colspan="3" class="empty">
+                                Select a group
+                            </td>
+                        </tr>
+                    `;
+
+            }
+
+        });
+
+
+    async function loadMembers(groupId) {
+
+        try {
+
+            const members =
+                await getMembers(groupId);
+
+
+            const table =
+                document.getElementById("membersTable");
+
+
+            if (!members.length) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="empty">
+                            No members found
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+
+            table.innerHTML = "";
+
+
+            members.forEach(member => {
+
+                const student =
+                    member.student;
+
+
+                const studentId =
+                    student
+                        ? student.id
+                        : "-";
+
+
+                const studentName =
+                    student
+                        ? (
+                            student.name ||
+                            student.fullName ||
+                            student.username ||
+                            `Student ${student.id}`
+                        )
+                        : "Unknown";
+
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>${member.id || "-"}</td>
+
+                    <td>${studentId}</td>
+
+                    <td>${studentName}</td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+
+        } catch (error) {
+
+            showMessage(
+                error.message,
+                false
+            );
+
+        }
+
+    }
+
+
+    /*
+     ==========================================
+     6. LEAVE GROUP
+     ==========================================
+    */
+
+    document
+        .getElementById("leaveGroup")
+        .addEventListener("change", async function() {
+
+            const groupId = this.value;
+
+            const select =
+                document.getElementById("leaveStudent");
+
+
+            select.innerHTML =
+                '<option value="">Loading...</option>';
+
+
+            if (!groupId) {
+
+                select.innerHTML =
+                    '<option value="">Select Group First</option>';
+
+                return;
+            }
+
+
+            try {
+
+                const members =
+                    await getMembers(groupId);
+
+
+                select.innerHTML =
+                    '<option value="">Select Member</option>';
+
+
+                members.forEach(member => {
+
+                    if (!member.student) return;
+
+
+                    const option =
+                        document.createElement("option");
+
+
+                    option.value =
+                        member.student.id;
+
+
+                    option.textContent =
+                        `${member.student.name || "Student"} (ID: ${member.student.id})`;
+
+
+                    select.appendChild(option);
+
+                });
+
+
+            } catch (error) {
+
+                select.innerHTML =
+                    '<option value="">Error loading members</option>';
+
+                showMessage(
+                    error.message,
+                    false
+                );
+
+            }
+
+        });
+
+
+    document
+        .getElementById("leaveForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const groupId =
+                Number(
+                    document
+                        .getElementById("leaveGroup")
+                        .value
+                );
+
+
+            const studentId =
+                Number(
+                    document
+                        .getElementById("leaveStudent")
+                        .value
+                );
+
+
+            try {
+
+                await request(
+                    "/api/study-groups/leave",
+                    {
+                        method: "DELETE",
+
+                        body: JSON.stringify({
+
+                            groupId: groupId,
+
+                            studentId: studentId
+
+                        })
+                    }
+                );
+
+
+                showMessage(
+                    "Student left the group successfully"
+                );
+
+
+                this.reset();
+
+
+                document.getElementById("leaveStudent")
+                    .innerHTML =
+                    '<option value="">Select Group First</option>';
+
+
+                await loadGroups();
+
+
+                const selected =
+                    document.getElementById("viewGroup").value;
+
+
+                if (selected == groupId) {
+                    loadMembers(groupId);
+                }
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+            }
+
+        });
+
+
+    /*
+     ==========================================
+     7. REMOVE MEMBER
+     ==========================================
+    */
+
+    document
+        .getElementById("removeGroup")
+        .addEventListener("change", async function() {
+
+            const groupId = this.value;
+
+
+            const creatorSelect =
+                document.getElementById("removeCreator");
+
+
+            const memberSelect =
+                document.getElementById("removeStudent");
+
+
+            creatorSelect.innerHTML =
+                '<option value="">Select Creator</option>';
+
+            memberSelect.innerHTML =
+                '<option value="">Select Member</option>';
+
+
+            if (!groupId) return;
+
+
+            const group =
+                groups.find(
+                    g => Number(g.id) === Number(groupId)
+                );
+
+
+            /*
+             * Automatically get creator
+             */
+
+            if (group && group.creator) {
+
+                const option =
+                    document.createElement("option");
+
+
+                option.value =
+                    group.creator.id;
+
+
+                option.textContent =
+                    `${group.creator.name || "Creator"} (ID: ${group.creator.id})`;
+
+
+                creatorSelect.appendChild(option);
+
+                creatorSelect.value =
+                    group.creator.id;
+
+            }
+
+
+            /*
+             * Get members
+             */
+
+            try {
+
+                const members =
+                    await getMembers(groupId);
+
+
+                members.forEach(member => {
+
+                    if (!member.student) return;
+
+
+                    /*
+                     * Do not show creator as
+                     * removable member.
+                     */
+
+                    if (
+                        group.creator &&
+                        Number(member.student.id) ===
+                        Number(group.creator.id)
+                    ) {
+                        return;
+                    }
+
+
+                    const option =
+                        document.createElement("option");
+
+
+                    option.value =
+                        member.student.id;
+
+
+                    option.textContent =
+                        `${member.student.name || "Student"} (ID: ${member.student.id})`;
+
+
+                    memberSelect.appendChild(option);
+
+                });
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+
+            }
+
+        });
+
+
+    document
+        .getElementById("removeForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const groupId =
+                Number(
+                    document
+                        .getElementById("removeGroup")
+                        .value
+                );
+
+
+            const creatorId =
+                Number(
+                    document
+                        .getElementById("removeCreator")
+                        .value
+                );
+
+
+            const studentId =
+                Number(
+                    document
+                        .getElementById("removeStudent")
+                        .value
+                );
+
+
+            try {
+
+                await request(
+                    "/api/study-groups/remove",
+                    {
+                        method: "DELETE",
+
+                        body: JSON.stringify({
+
+                            groupId: groupId,
+
+                            creatorId: creatorId,
+
+                            studentId: studentId
+
+                        })
+                    }
+                );
+
+
+                showMessage(
+                    "Member removed successfully"
+                );
+
+
+                this.reset();
+
+
+                document.getElementById("removeCreator")
+                    .innerHTML =
+                    '<option value="">Select Creator</option>';
+
+                document.getElementById("removeStudent")
+                    .innerHTML =
+                    '<option value="">Select Member</option>';
+
+
+                await loadGroups();
+
+
+                const selected =
+                    document.getElementById("viewGroup").value;
+
+
+                if (selected == groupId) {
+                    loadMembers(groupId);
+                }
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+
+            }
+
+        });
+
+
+    /*
+     ==========================================
+     8. DELETE GROUP
+     ==========================================
+    */
+
+    document
+        .getElementById("deleteForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const groupId =
+                Number(
+                    document
+                        .getElementById("deleteGroup")
+                        .value
+                );
+
+
+            if (!groupId) {
+
+                showMessage(
+                    "Please select a group",
+                    false
+                );
+
+                return;
+            }
+
+
+            const group =
+                groups.find(
+                    g => Number(g.id) === groupId
+                );
+
+
+            const groupName =
+                group
+                    ? group.name
+                    : `Group ${groupId}`;
+
+
+            if (
+                !confirm(
+                    `Are you sure you want to delete "${groupName}"?`
+                )
+            ) {
+                return;
+            }
+
+
+            try {
+
+                await request(
+                    `/api/study-groups/${groupId}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+                showMessage(
+                    "Study group deleted successfully"
+                );
+
+
+                this.reset();
+
+
+                await loadGroups();
+
+
+                document.getElementById("membersTable")
+                    .innerHTML = `
+                        <tr>
+                            <td colspan="3" class="empty">
+                                Select a group
+                            </td>
+                        </tr>
+                    `;
+
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    false
+                );
+
+            }
+
+        });
+
+
+    /*
+     ==========================================
+     START
+     ==========================================
+    */
+
+    window.addEventListener(
+        "DOMContentLoaded",
+        loadEverything
+    );
+
+</script>
+
+</body>
+</html>
